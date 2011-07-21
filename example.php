@@ -13,8 +13,8 @@
 	// $packer->strip_comments=false;	// Turn off stripping comments (Automatically enabled by $strip. Enabling $strip will override this.)
 
 	// Set encoding..
-	// $packer->encoding=false;	//
-	// $packer->encoding='base64';
+	// $packer->encoding=false;	// Turn all encoding off
+	// $packer->encoding='base64';	// Use base64 encoding. This is the default.
 
 	// Run the packer
 	$packer->pack();
