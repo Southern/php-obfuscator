@@ -4,7 +4,7 @@
 
 		public $strip=true;		// Strip comments and whitespace
 		public $strip_comments=true;	// Strip comments (Automatically enabled when using $strip).
-		public $b64=true;		// Base64 passover
+		public $encoding='base64';		// Use Base64 encoding.
 
 		private $_globals=array();	// Global variables
 		private $_classes=array();	// Class specific variables
@@ -49,18 +49,22 @@
 
 		private function encode($tmp) {
 			if ($this->strip) $tmp=preg_replace('/[\n\t\s]+/',' ',$tmp);
-			$tmp=preg_replace('/^\<\?(php)*/','',$tmp);
-			$tmp=preg_replace('/\?\>$/','',$tmp);
-			$tmp=str_replace(array('\"','$','"'),array('\\\"','\$','\"'),$tmp);
-			$tmp=trim($tmp);
-			if ($this->b64) {
-				$tmp=base64_encode("$tmp");
-				$tmp="<?php \$code=base64_decode(\"$tmp\"); eval(\"return eval(\\\"\$code\\\");\") ?>\n";
-			} else $tmp="<?php eval(eval(\"$tmp\")); ?>\n";
+			if ($this->encoding) {
+				$tmp=preg_replace('/^\<\?(php)*/','',$tmp);
+				$tmp=preg_replace('/\?\>$/','',$tmp);
+				$tmp=str_replace(array('\"','$','"'),array('\\\"','\$','\"'),$tmp);
+				$tmp=trim($tmp);
+				if ($this->encoding=='base64') {
+					$tmp=base64_encode("$tmp");
+					$tmp="<?php \$code=base64_decode(\"$tmp\"); eval(\"return eval(\\\"\$code\\\");\") ?>\n";
+				}
+				else $tmp="<?php eval(eval(\"$tmp\")); ?>\n";
+			}
 			$this->code=$tmp;
 		}
 
 		private function encode_string($text) {
+			if (!$this->encoding) return $text;
 			for ($i=0;$i<=strlen($text)-1;$i++) {
 				$chr=ord(substr($text,$i,1));
 				if ($chr==32||$chr==34||$chr==39) $tmp[]=chr($chr); // Space, leave it alone.

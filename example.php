@@ -11,7 +11,10 @@
 
 	// $packer->strip=false;	// Turn off stripping whitespace.
 	// $packer->strip_comments=false;	// Turn off stripping comments (Automatically enabled by $strip. Enabling $strip will override this.)
-	// $packer->b64=false;			// Turn off base64 passover.
+
+	// Set encoding..
+	// $packer->encoding=false;	//
+	// $packer->encoding='base64';
 
 	// Run the packer
 	$packer->pack();
