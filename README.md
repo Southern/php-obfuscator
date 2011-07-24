@@ -1,4 +1,4 @@
-PHP Obfuscator 0.1
+PHP Obfuscator 0.2
 =============================================================================
 *This script is in it's very beginning stages. Report any bugs you may find.*
 
